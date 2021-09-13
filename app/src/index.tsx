@@ -4,7 +4,7 @@ import './index.css'
 import { BrowserRouter } from 'react-router-dom'
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { firebaseConfig } from '../FirebaseKey.js'
+import { firebaseConfig } from './Firebasekey.js'
 
 const app = initializeApp(firebaseConfig);
 if (window.location.hostname !== 'localhost') {
