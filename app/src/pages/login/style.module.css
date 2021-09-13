@@ -1,0 +1,44 @@
+.header {
+    display: flex;
+    padding: 10px 20px;
+}
+
+.header h2 {
+    flex: 1;
+    font-size: 48px;
+    color: var(--navy-blue);
+}
+
+.main {
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main button {
+    background-color: var(--navy-blue);
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    box-shadow: 2px 2px 5px rgb(179, 178, 178);
+}
+
+.main button:active {
+    box-shadow: 2px 2px 3px rgb(179, 178, 178);
+}
+
+
+.main button:disabled {
+    background-color: var(--navy-blue-disabled);
+}
+
+
+.main button img {
+    margin-right: 10px;
+}
+

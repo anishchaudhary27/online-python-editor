@@ -1,0 +1,88 @@
+.root {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+.language_logo {
+    height: 48px;
+}
+
+.toolbar {
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    height: 70px;
+}
+
+.toolbar p {
+    flex: 1;
+    margin-left: 10px;
+    font-size: 12px;
+    color: rgb(95, 99, 104);
+    font-weight: 600;
+}
+
+.toolbar input {
+    margin-left: 10px;
+    border: none;
+    padding: 5px;
+    font-size: 16px;
+    background-color: rgb(238, 238, 238);
+}
+
+.toolbar input:focus {
+    border: 2px solid var(--navy-blue);
+    border-radius: 5px;
+}
+
+.img_button {
+    padding: 10px;
+}
+
+.img_button:hover {
+    background-color: rgba(0, 0, 0, 0.123);
+    cursor: pointer;
+}
+
+.img_button:active {
+    background-color: rgba(0, 0, 0, 0.247);
+}
+
+.main {
+    height: calc(100vh - 70px);
+    width: 100vw;
+    display: flex;
+    background-color: white;
+}
+
+.editor_container {
+    height: 100%;
+    width: calc(70vw - 5px);
+    overflow: hidden;
+}
+
+.resize_bar {
+    height: 100%;
+    background-color: rgb(228, 228, 228);
+    width: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.resize_bar:hover {
+    cursor: ew-resize ;
+}
+
+.resize_bar img {
+    height: 30px;
+}
+
+.output_container {
+    height: 100%;
+    width: calc(30vw - 5px);
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
