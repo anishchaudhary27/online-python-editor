@@ -75,7 +75,10 @@ export default function Projects() {
                         })
                     }
                 </div>
-                <div className={style.sidebar} />
+                <div className={style.sidebar} >
+                    <img src="/GitHub_Logo.png" style={{ height: 50 }} />
+                    <a href="https://github.com/anishchaudhary27/online-python-editor">https://github.com/anishchaudhary27/online-python-editor</a>
+                </div>
             </div>
         </div>
     )

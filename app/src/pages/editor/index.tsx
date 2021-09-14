@@ -1,11 +1,10 @@
-import React, { createRef, useEffect, useState } from 'react'
+import React, { createRef, KeyboardEventHandler, useEffect, useState } from 'react'
 import style from './style.module.css'
 import { getFirestore, getDoc, doc, setDoc, deleteDoc } from 'firebase/firestore'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { useHistory, useParams } from 'react-router-dom'
 import { v4 as uuid } from 'uuid'
 import * as monaco from 'monaco-editor'
-import { client } from 'websocket'
 
 type Param = {
     id: string;
@@ -21,9 +20,11 @@ export default function Editor() {
     const editorRef: React.RefObject<HTMLInputElement> = createRef()
     const resizerRef: React.RefObject<HTMLInputElement> = createRef()
     const outputRef: React.RefObject<HTMLInputElement> = createRef()
+    const terminalRef: React.RefObject<HTMLInputElement> = createRef()
     const [model, setModel] = useState<monaco.editor.IModel | null>(null)
+    const [logs, setLogs] = useState([""])
     const [running, setrunning] = useState(false)
-    const [logs, setlogs] = useState<string[]>(["Output::\n"])
+    const [terminal_input, setterminal_input] = useState("")
     const auth = getAuth()
     const db = getFirestore()
     const [conn, setconn] = useState<WebSocket | null>(null)
@@ -106,7 +107,7 @@ export default function Editor() {
 
     const runfile = () => {
         if (model && !running && conn) {
-            setlogs(["Output::\n"])
+            setLogs([])
             const code = model.getValue()
             const req = JSON.stringify({
                 type: "run",
@@ -164,13 +165,13 @@ export default function Editor() {
             const resp: Response = JSON.parse(ev.data)
             switch (resp.type) {
                 case "data":
-                    let tmp = logs.slice()
                     if (resp.data) {
-                        const tops = resp.data.split('\n')
-                        tops.forEach(val => {
-                            tmp.push(val)
+                        const lines = resp.data.split('\n')
+                        let t = logs.slice()
+                        lines.forEach(ln => {
+                            t.push(ln)
                         })
-                        setlogs(tmp)
+                        setLogs(t)
                     }
                     break;
                 case "exit":
@@ -190,6 +191,23 @@ export default function Editor() {
             tmpconn.close()
         }
     }, [db, auth, history])
+
+    const handleTerminalInput: KeyboardEventHandler<HTMLInputElement> = (e) => {
+        if (e.key == "Enter") {
+            if (running && conn) {
+                const req = JSON.stringify({
+                    type: "input",
+                    value: terminal_input
+                })
+                conn.send(req)
+                setterminal_input("")
+            }
+        }
+        else {
+            const tmp = terminal_input + e.key
+            setterminal_input(tmp)
+        }
+    }
 
     return (
         <div className={style.root}>
@@ -212,11 +230,14 @@ export default function Editor() {
                     <img src="/dots.svg" />
                 </div>
                 <div className={style.output_container} ref={outputRef}>
+                    <h3>Output</h3>
                     {
-                        logs.map((log, i) => {
-                            return <p key={i}>{log}</p>
+                        logs.map((val, n) => {
+                            return <p key={n}>{val}</p>
                         })
                     }
+                    <div style={{ height: 100, width: "100%" }} />
+                    <input className={style.output_input} disabled={!running} placeholder="terminal input" value={terminal_input} onKeyPress={handleTerminalInput} />
                 </div>
             </div>
         </div>

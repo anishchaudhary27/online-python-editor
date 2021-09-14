@@ -116,3 +116,7 @@
 .tableitem p {
     flex: 1;
 }
+
+.sidebar {
+    padding: 20px;
+}

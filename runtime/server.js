@@ -8,6 +8,7 @@ const wss = new WebSocketServer({ port });
 
 wss.on('connection', function connection(ws) {
     let prcs = null
+    console.log(ws);
     ws.on('message', async function incoming(message) {
         try {
             const req = JSON.parse(message)
@@ -46,6 +47,10 @@ wss.on('connection', function connection(ws) {
                 case "input":
                     if (prcs) {
                         prcs.stdin.write(req.value + '\n')
+                        ws.send(JSON.stringify({
+                            type: "data",
+                            data: req.val
+                        }))
                     }
                     else {
                         ws.send(JSON.stringify({

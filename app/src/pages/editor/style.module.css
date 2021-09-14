@@ -85,4 +85,16 @@
     width: calc(30vw - 5px);
     overflow-x: hidden;
     overflow-y: scroll;
+    position: relative;
+    padding-left: 10px;
+}
+
+.output_input {
+    position: absolute;
+    bottom: 2px;
+    width: 100%;
+    left: 0px;
+    border: 2px solid rgb(100, 100, 100);
+    border-radius: 5px;
+    padding: 5px;
 }
