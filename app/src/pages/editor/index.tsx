@@ -12,7 +12,7 @@ type Param = {
 
 type Response = {
     data: string | undefined;
-    code: Int16Array | undefined;
+    code: number | undefined;
     type: string;
 }
 
@@ -176,11 +176,16 @@ export default function Editor() {
                     break;
                 case "exit":
                     setrunning(false)
-                    setStatus("")
+                    if (resp.code === 0) {
+                        setStatus("")
+                    }
                     break
                 case "runtime_error":
                     setStatus("runtime error occured!!")
                     window.location.reload()
+                    break
+                case "stderr":
+                    setStatus("error running code!!")
                     break
                 default:
                     break;
